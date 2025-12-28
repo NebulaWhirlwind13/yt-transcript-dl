@@ -110,6 +110,35 @@ def download_with_retry(downloader, url, max_retries, logger=None):
     raise last_error
 
 
+def confirm_bulk_download(url_type: str, total_videos: int, output_dir: Path, formats: list, sync: bool) -> bool:
+    """
+    Show download plan and ask for user confirmation.
+
+    Args:
+        url_type: Type of URL (channel/playlist)
+        total_videos: Number of videos found
+        output_dir: Output directory path
+        formats: List of output formats
+        sync: Whether sync mode is enabled
+
+    Returns:
+        True if user confirms, False otherwise
+    """
+    print_info("")
+    print_info("=" * 60)
+    print_info("DOWNLOAD PLAN")
+    print_info("=" * 60)
+    print_info(f"Source:          {url_type.capitalize()}")
+    print_info(f"Videos found:    {total_videos}")
+    print_info(f"Output directory: {output_dir}")
+    print_info(f"Format(s):       {', '.join(formats)}")
+    print_info(f"Sync mode:       {'Enabled (only new videos)' if sync else 'Disabled (all videos)'}")
+    print_info("=" * 60)
+    print_info("")
+
+    return click.confirm("Proceed with download?", default=True)
+
+
 @click.command()
 @click.argument('url', required=False)
 @click.option(
@@ -622,6 +651,11 @@ def main(
 
             print_info(f"Found {total_videos} videos in channel")
 
+            # Show download plan and ask for confirmation
+            if not confirm_bulk_download("channel", total_videos, output_dir, output_formats, sync):
+                print_info("Download cancelled by user")
+                sys.exit(0)
+
             # Process each video with progress indication
             success_count = 0
             skip_count = 0
@@ -743,6 +777,11 @@ def main(
                 sys.exit(1)
 
             print_info(f"Found {total_videos} videos in playlist")
+
+            # Show download plan and ask for confirmation
+            if not confirm_bulk_download("playlist", total_videos, output_dir, output_formats, sync):
+                print_info("Download cancelled by user")
+                sys.exit(0)
 
             # Process each video with progress indication
             success_count = 0

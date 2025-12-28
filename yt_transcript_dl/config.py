@@ -173,6 +173,10 @@ def merge_config(config: Dict[str, Any], cli_value: Any, config_key: str, cli_de
     Returns:
         Merged value
     """
+    # If CLI value is None, prefer config value (None means not provided)
+    if cli_value is None:
+        return config.get(config_key, cli_default)
+
     # If CLI value differs from default, use it (user explicitly set it)
     if cli_value != cli_default:
         return cli_value

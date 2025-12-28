@@ -86,6 +86,37 @@ Sync options:
 - `--overwrite` - Force re-download existing files
 - `--force-full` - Ignore sync state and download all
 
+### Bulk Download Confirmation
+
+When downloading channels or playlists, the tool shows a download plan and asks for confirmation before proceeding:
+
+```bash
+yt-transcript-dl https://youtube.com/@channel
+```
+
+Output:
+```
+Detected channel URL, enumerating videos...
+Found 42 videos in channel
+
+============================================================
+DOWNLOAD PLAN
+============================================================
+Source:          Channel
+Videos found:    42
+Output directory: /Volumes/PARA/03_Resources/youtube-transcripts/_incoming
+Format(s):       txt
+Sync mode:       Enabled (only new videos)
+============================================================
+
+Proceed with download? [Y/n]:
+```
+
+- Press `Enter` or `y` to proceed with download
+- Press `n` to cancel
+
+**Note**: Single video downloads proceed immediately without confirmation.
+
 ### Configuration Files
 
 Create a configuration file to set defaults:
