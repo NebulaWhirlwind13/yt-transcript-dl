@@ -91,26 +91,36 @@ Sync options:
 Create a configuration file to set defaults:
 
 ```bash
-# Generate sample config
+# Generate sample config (global)
 yt-transcript-dl --init-config ~/.config/yt-transcript-dl/config.toml
+
+# Or create project-specific config
+yt-transcript-dl --init-config .yt-transcript-dl.toml
 ```
 
 Configuration locations (checked in order):
-1. `./.yt-transcript-dl.toml` (current directory)
-2. `~/.config/yt-transcript-dl/config.toml` (user config)
+1. `./.yt-transcript-dl.toml` (project-specific, highest priority)
+2. `~/.config/yt-transcript-dl/config.toml` (global user config)
+
+CLI flags override config file settings.
 
 Example config:
 ```toml
 lang = "en"
 format = "srt"
+output_dir = "./transcripts"
 include_metadata = true
 embed_description = true
+filename_pattern = "{channel}_{date}_{title}"
 retry = 5
+delay = 1.0
 ```
 
+See [CONFIG_EXAMPLES.md](examples/CONFIG_EXAMPLES.md) for comprehensive configuration examples and use cases.
+
 Options:
-- `--init-config PATH` - Create sample configuration file
-- `--no-config` - Ignore configuration files
+- `--init-config PATH` - Create sample configuration file at specified path
+- `--no-config` - Ignore all configuration files
 
 ### Options
 

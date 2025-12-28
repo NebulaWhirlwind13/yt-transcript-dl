@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "yt-transcript-dl"
+name = "ytdl-transcript"
 version = "0.1.0"
 description = "Download YouTube video transcripts using yt-dlp"
 readme = "README.md"
